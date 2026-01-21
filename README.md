@@ -28,9 +28,7 @@ Each record in the processed dataset contains the following fields:
 | `SECY Date` | Date of the SECY introduction in MM/DD/YYYY format. | `1/3/2000` |
 | `SECY Year` | Year of the SECY introduction in YYYY format. | `2000` |
 | `SECY url` | The URL link to access the SECY file| `https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/srm/2000/2000-0001srm.pdf)` |
-| `detailed_type` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
-| `title` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
-| `voter` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
+| `detailed_type` | The type of SECY document. | `Other` |
 | `Vote Date` | Date of the vote in MM/DD/YYYY format. | `2/8/2000` |
 | `CVR Year` | Year of the vote in YYYY format. | `2000` |
 | `SRM Business Days` | How many business days does it take from SECY introduction to final SRM? | `29` |
@@ -38,8 +36,19 @@ Each record in the processed dataset contains the following fields:
 | `Vote_SRM Business Days` | How many business days does it take from this vote to final SRM? | `4` |
 | `First_vote` | Is this the first vote of this SECY? | `FALSE` |
 | `Last_vote` | Is this the last vote of this SECY? | `TRUE` |
+| `Role at CVR` | Voter's role when the vote happened (Commissioner or Chair).| `Commissioner` |
+| `Party Affliation` | Party or affiliation (string). Democrat, Republican, or Independent | `Republican` |
+| `Start Date` | Date of the commissioner started their term in MM/DD/YYYY format. | `8/23/1996` |
+| `End Date` | Date of the commissioner ended their term in MM/DD/YYYY format. | `6/30/2001` |
+| `Gender` | Gender of the commissioner. Male or Female | `Male` |
+| `Chair at SECY` | The name of the Chair when the SECY was introduced.| `Meserve` |
+| `Cumulative Days Served` | Number of days that the commissioner has served.| `1265` |
+| `Term Number` | How many terms has this commissioner served?| `1` |
+| `Chair at CVR` | The name of the Chair when the vote happened.| `Meserve` |
+| `Chair at SECY Start Date` | Date of the Chair when SECY was introduced started their term in MM/DD/YYYY format. | `10/29/1999` |
+| `Chair at SECY End Date` | Date of the Chair when SECY was introduced ended their term in MM/DD/YYYY format. | `3/31/2003` |
 | `member_name` | Full name of the member. | `Jane A. Smith` |
-| `party` | Party or affiliation (string). If not applicable, use `None` or blank. | `Independent` |
+
 | `vote` | Vote recorded (standardized values: `Yes`, `No`, `Abstain`, `Recused`, `Not Present`). | `Yes` |
 | `location` | Optional geographic info (state, district, or office). May be blank for federal-only members. | `MD` or `Washington, DC` |
 | `notes` | Optional free-text notes about the vote (e.g., partial concurrence, special conditions). | `Concurred in part` |
