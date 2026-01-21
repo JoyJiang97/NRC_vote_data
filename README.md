@@ -19,8 +19,10 @@ Each record in the processed dataset contains the following fields:
 ### Variables
 | Variable | Description | Example |
 |---|---:|---|
-| `vote_id` | Unique identifier for the vote (string). Use a stable pattern across imports (e.g., year + sequence). | `V1997-001` |
-| `date` | Date of the vote in YYYY-MM-DD format. | `2003-05-12` |
+| `SECY_number` | Unique identifier for the vote (string). The pattern is SECY-YY-XXXX. YY stands for the introduction year. (e.g., 20 means the SECY was introduced in 2000.). | `SECY-00-0001` |
+| `SRM Description` | Describe the content of that SECY. | `Pilot Program for NMSS Initiative on Streamlining Inspection and Enforcement` |
+| `SRM Date` | Date of the SRM publication in MM/DD/YYYY format. | `2/14/2000` |
+| `SRM Year` | Year of the SRM publication in YYYY format. | `2000` |
 | `issue` | Short description or category of the vote (e.g., topic or docket summary). | `License renewal` |
 | `member_id` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
 | `member_name` | Full name of the member. | `Jane A. Smith` |
