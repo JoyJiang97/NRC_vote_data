@@ -3,16 +3,14 @@
 A curated dataset and supporting code for analyzing NRC voting records, for SECYs introduced from 1997 to 2025. This repository collects raw and processed vote data, scripts and notebooks for cleaning and analysis, and documentation to reproduce common analyses.
 
 ## Contents
-- `data/raw/` — Original raw data files (CSV, JSON, etc.). Do not modify.
-- `data/processed/` — Cleaned and merged datasets ready for analysis.
+- `NRC_vote_data/NRC_vote_data.csv/` — Cleaned and merged datasets ready for analysis.
 - `notebooks/` — Jupyter notebooks demonstrating exploratory analysis and visualizations.
 - `scripts/` — Data processing and utility scripts (Python/R).
-- `docs/` — Additional documentation, schema definitions, and data dictionaries.
 - `README.md` — This file.
 
 ## Project goals
 - Provide a clean, documented dataset of NRC votes suitable for research and reproducible analysis.
-- Supply example analyses and tooling to help users explore vote patterns, member behavior, and temporal trends.
+- Supply example analyses and tooling to help users explore vote patterns, commission behavior, and temporal trends.
 - Make it easy for others to contribute corrections, new data, or new analyses.
 
 ## Data description
@@ -25,8 +23,6 @@ Each record in the processed dataset contains (example fields):
 - `party` — Party or affiliation
 - `vote` — Vote recorded (e.g., "Yes", "No", "Abstain")
 - `location` — Optional: geographic info (state, district)
-
-See `docs/data_dictionary.md` for a full schema and field definitions.
 
 ## Quick start
 
