@@ -16,6 +16,7 @@ A curated dataset and supporting code for analyzing NRC voting records, for SECY
 ## Data description
 Each record in the processed dataset contains (example fields):
 - `vote_id` — Unique identifier for the vote
+- `vote_id` — Unique identifier for the vote
 - `date` — Date of the vote (YYYY-MM-DD)
 - `issue` — Short description or category of the vote
 - `member_id` — Unique identifier for the member casting the vote
