@@ -1,6 +1,6 @@
 # NRC_vote_data
 
-A curated dataset and supporting code for analyzing NRC voting records. This repository collects raw and processed vote data, scripts and notebooks for cleaning and analysis, and documentation to reproduce common analyses.
+A curated dataset and supporting code for analyzing NRC voting records, for SECYs introduced from 1997 to 2025. This repository collects raw and processed vote data, scripts and notebooks for cleaning and analysis, and documentation to reproduce common analyses.
 
 ## Contents
 - `data/raw/` — Original raw data files (CSV, JSON, etc.). Do not modify.
