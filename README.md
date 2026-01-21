@@ -37,7 +37,7 @@ Each record in the processed dataset contains the following fields:
 | `First_vote` | Is this the first vote of this SECY? | `FALSE` |
 | `Last_vote` | Is this the last vote of this SECY? | `TRUE` |
 | `Role at CVR` | Voter's role when the vote happened (Commissioner or Chair).| `Commissioner` |
-| `Party Affliation` | Party or affiliation (string). Democrat, Republican, or Independent | `Republican` |
+| `Party Affiliation` | Party or affiliation (string). Democrat, Republican, or Independent | `Republican` |
 | `Start Date` | Date of the commissioner started their term in MM/DD/YYYY format. | `8/23/1996` |
 | `End Date` | Date of the commissioner ended their term in MM/DD/YYYY format. | `6/30/2001` |
 | `Gender` | Gender of the commissioner. Male or Female | `Male` |
@@ -54,9 +54,15 @@ Each record in the processed dataset contains the following fields:
 | `Original_Vote Business Days` | How many business days does it take from SECY introduction to this vote? | `25` |
 | `next_chair` | The next chair after the vote happened.| `Diaz` |
 | `responsible_chair` | The chair who is responsible for this SECY, usually the chair when the SECY was introduced.| `Meserve` |
-
-
-
+| `com_count_SECY` | Number of commissioners when SECY was introduced.| `5` |
+| `com_count_CVR` | Number of commissioners when the vote was cast.| `5` |
+| `com_count_SRM` | Number of commissioners when the SRM is published.| `5` |
+| `com_count_average` | Average number of commissioners from SECY, CVR, and SRM .| `5` |
+| `Congress` | The Congress was controlled by Democrats (0), Republicans (1), or split (0.5) when the vote was cast. | `1` |
+| `Presidency` | The President was Democrat (0) or Republican (1) when the vote was cast. | `0` |
+| `Party` | The voter's Party or affiliation (numeric). Democrat (0), Republican(1), or Independent (0.5)  | `1` |
+| `Party_Congress_Diff` | The difference between the voter's Party or affiliation (numeric) and the majority in Congress. | `0` |
+| `Party_Presidency_Diff` |  The difference between the voter's Party or affiliation (numeric) and the President's Party affiliation. | `1` |
 Notes:
 - Types: most fields are strings; `date` is parsable as a date. In pandas use `parse_dates=["date"]`.
 - Missing values: use empty strings or standard NA markers consistent with other data in the repo (e.g., `NaN` or blank).
