@@ -19,12 +19,25 @@ Each record in the processed dataset contains the following fields:
 ### Variables
 | Variable | Description | Example |
 |---|---:|---|
-| `SECY_number` | Unique identifier for the vote (string). The pattern is SECY-YY-XXXX. YY stands for the introduction year. (e.g., 20 means the SECY was introduced in 2000.). | `SECY-00-0001` |
-| `SRM Description` | Describe the content of that SECY. | `Pilot Program for NMSS Initiative on Streamlining Inspection and Enforcement` |
+| `SECY_number` | Unique identifier for the vote (string). The pattern is SECY-YY-XXXX. YY stands for the introduction year. (e.g., 20 means the SECY was introduced in 2000.) | `SECY-00-0001` |
+| `SRM Description` | Describe the content of that SRM. | `Pilot Program for NMSS Initiative on Streamlining Inspection and Enforcement` |
 | `SRM Date` | Date of the SRM publication in MM/DD/YYYY format. | `2/14/2000` |
 | `SRM Year` | Year of the SRM publication in YYYY format. | `2000` |
-| `issue` | Short description or category of the vote (e.g., topic or docket summary). | `License renewal` |
-| `member_id` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
+| `SRM url` | The URL link to access the SRM file| `https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/srm/2000/2000-0001srm.pdf)` |
+| `Description` | Describe the content of the SECY. | `Pilot Program for NMSS Initiative on Streamlining Inspection and Enforcement` |
+| `SECY Date` | Date of the SECY introduction in MM/DD/YYYY format. | `1/3/2000` |
+| `SECY Year` | Year of the SECY introduction in YYYY format. | `2000` |
+| `SECY url` | The URL link to access the SECY file| `https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/srm/2000/2000-0001srm.pdf)` |
+| `detailed_type` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
+| `title` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
+| `voter` | Unique identifier for the member casting the vote (internal id). | `M-2001-02` |
+| `Vote Date` | Date of the vote in MM/DD/YYYY format. | `2/8/2000` |
+| `CVR Year` | Year of the vote in YYYY format. | `2000` |
+| `SRM Business Days` | How many business days does it take from SECY introduction to final SRM? | `29` |
+| `Vote Business Days` | How many business days does it take from SECY introduction to this vote? | `25` |
+| `Vote_SRM Business Days` | How many business days does it take from this vote to final SRM? | `4` |
+| `First_vote` | Is this the first vote of this SECY? | `FALSE` |
+| `Last_vote` | Is this the last vote of this SECY? | `TRUE` |
 | `member_name` | Full name of the member. | `Jane A. Smith` |
 | `party` | Party or affiliation (string). If not applicable, use `None` or blank. | `Independent` |
 | `vote` | Vote recorded (standardized values: `Yes`, `No`, `Abstain`, `Recused`, `Not Present`). | `Yes` |
