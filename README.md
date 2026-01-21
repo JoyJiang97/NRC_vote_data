@@ -47,11 +47,15 @@ Each record in the processed dataset contains the following fields:
 | `Chair at CVR` | The name of the Chair when the vote happened.| `Meserve` |
 | `Chair at SECY Start Date` | Date of the Chair when SECY was introduced started their term in MM/DD/YYYY format. | `10/29/1999` |
 | `Chair at SECY End Date` | Date of the Chair when SECY was introduced ended their term in MM/DD/YYYY format. | `3/31/2003` |
-| `member_name` | Full name of the member. | `Jane A. Smith` |
+| `voter` | Last name of the commissioner who cast the vote. | `Diaz` |
+| `Role at SECY` | Voter's role when the SECY was introduced (Commissioner or Chair).| `Commissioner` |
+| `SECY before term` | Was the SECY introduced before this commissioner's term?| `FALSE` |
+| `Original_SRM Business Days` | How many business days does it take from SECY introduction to final SRM? | `29` |
+| `Original_Vote Business Days` | How many business days does it take from SECY introduction to this vote? | `25` |
+| `next_chair` | The next chair after the vote happened.| `Diaz` |
+| `responsible_chair` | The chair who is responsible for this SECY, usually the chair when the SECY was introduced.| `Meserve` |
 
-| `vote` | Vote recorded (standardized values: `Yes`, `No`, `Abstain`, `Recused`, `Not Present`). | `Yes` |
-| `location` | Optional geographic info (state, district, or office). May be blank for federal-only members. | `MD` or `Washington, DC` |
-| `notes` | Optional free-text notes about the vote (e.g., partial concurrence, special conditions). | `Concurred in part` |
+
 
 Notes:
 - Types: most fields are strings; `date` is parsable as a date. In pandas use `parse_dates=["date"]`.
