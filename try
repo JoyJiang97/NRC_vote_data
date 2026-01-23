@@ -1,0 +1,200 @@
+"""
+Reusable plotting utilities for NRC_vote_data
+
+Usage:
+- Place this file in scripts/ or a similar folder.
+- Call functions from a notebook or script:
+    from scripts.plotting import load_data, plot_time_series
+    df = load_data("data/processed/nrc_votes_processed.csv")
+    plot_time_series(df, date_col="date", group_col="vote")
+
+Assumptions about dataframe:
+- 'date' column is parseable as datetime (if not, pass date_col accordingly)
+- 'vote' column contains vote labels (e.g., 'Yes','No','Abstain')
+- 'member_name' and 'issue' may be present for groupings
+"""
+
+from typing import Optional
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Try import plotly for optional interactive plots
+try:
+    import plotly.express as px
+    HAS_PLOTLY = True
+except Exception:
+    HAS_PLOTLY = False
+
+sns.set_theme(style="whitegrid")
+
+
+def load_data(path: str, parse_dates: Optional[list] = None) -> pd.DataFrame:
+    """
+    Load processed CSV into a DataFrame.
+    - path: path to CSV file
+    - parse_dates: list of columns to parse as dates (default ['date'] if it exists)
+    """
+    if parse_dates is None:
+        parse_dates = ["date"]
+    df = pd.read_csv(path, parse_dates=[c for c in parse_dates if c in pd.read_csv(path, nrows=0).columns])
+    return df
+
+
+def plot_time_series(
+    df: pd.DataFrame,
+    date_col: str = "date",
+    group_col: Optional[str] = None,
+    value_col: Optional[str] = None,
+    freq: str = "M",
+    figsize: tuple = (10, 5),
+    title: Optional[str] = None,
+    kind: str = "count",
+    ax: Optional[plt.Axes] = None,
+):
+    """
+    Plot time series of counts or aggregated values.
+    - group_col: if provided, plot one line per group (e.g., 'vote' or 'member_name')
+    - kind: "count" (counts per period) or "mean" (mean of value_col) or "sum"
+    - freq: Pandas resample frequency string (e.g., "M" monthly, "W" weekly)
+    """
+    df = df.copy()
+    df[date_col] = pd.to_datetime(df[date_col])
+    df.set_index(date_col, inplace=True)
+
+    if kind == "count":
+        if group_col:
+            grouped = df.groupby([pd.Grouper(freq=freq), group_col]).size().rename("count").reset_index()
+            pivot = grouped.pivot(index=date_col, columns=group_col, values="count").fillna(0)
+        else:
+            series = df.resample(freq).size()
+            pivot = series.to_frame("count")
+    else:
+        if value_col is None:
+            raise ValueError("value_col must be provided when kind != 'count'")
+        if group_col:
+            aggregated = df.groupby([pd.Grouper(freq=freq), group_col])[value_col].agg(kind).reset_index()
+            pivot = aggregated.pivot(index=date_col, columns=group_col, values=value_col).fillna(0)
+        else:
+            pivot = df.resample(freq)[value_col].agg(kind).to_frame(name=value_col).fillna(0)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    else:
+        fig = ax.figure
+
+    if isinstance(pivot, pd.DataFrame) and pivot.shape[1] > 1:
+        pivot.plot(ax=ax)
+    else:
+        pivot.squeeze().plot(ax=ax)
+
+    ax.set_ylabel("Count" if kind == "count" else value_col)
+    ax.set_xlabel("Date")
+    if title:
+        ax.set_title(title)
+    else:
+        ax.set_title("Time series" + (f" by {group_col}" if group_col else ""))
+    plt.tight_layout()
+    return ax
+
+
+def plot_vote_share_bar(
+    df: pd.DataFrame,
+    by: str = "member_name",
+    vote_col: str = "vote",
+    top_n: Optional[int] = 10,
+    figsize: tuple = (10, 6),
+    stacked: bool = True,
+):
+    """
+    Plot vote share (counts or proportions) by a grouping column (e.g., member_name).
+    - top_n: show only top N groups by total votes
+    - stacked: whether to show stacked bars (counts) or grouped bars (proportions)
+    """
+    counts = pd.crosstab(df[by], df[vote_col])
+    if top_n:
+        counts = counts.loc[counts.sum(axis=1).sort_values(ascending=False).head(top_n).index]
+
+    if stacked:
+        ax = counts.plot(kind="bar", stacked=True, figsize=figsize)
+        ax.set_ylabel("Number of votes")
+        ax.set_xlabel(by)
+        ax.set_title(f"Vote counts by {by}")
+    else:
+        props = counts.div(counts.sum(axis=1), axis=0)
+        ax = props.plot(kind="bar", stacked=False, figsize=figsize)
+        ax.set_ylabel("Proportion")
+        ax.set_xlabel(by)
+        ax.set_title(f"Vote share by {by} (top {top_n})")
+
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    return ax
+
+
+def plot_heatmap_votes_over_time(
+    df: pd.DataFrame,
+    date_col: str = "date",
+    row: str = "member_name",
+    col_freq: str = "Y",
+    vote_col: str = "vote",
+    aggfunc="count",
+    figsize: tuple = (12, 8),
+    cmap: str = "viridis",
+):
+    """
+    Create a heatmap where rows are members/issues and columns are time buckets (year/month).
+    - col_freq: resample frequency for columns (e.g., 'Y' yearly, 'M' monthly)
+    - aggfunc supported: 'count', 'sum', 'mean' (for value columns you'd pass appropriate value_col)
+    """
+    df = df.copy()
+    df[date_col] = pd.to_datetime(df[date_col])
+    df["_col"] = df[date_col].dt.to_period(col_freq).dt.to_timestamp()
+
+    pivot = pd.crosstab(df[row], df["_col"])
+    pivot = pivot.sort_index()
+
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.heatmap(pivot, cmap=cmap, ax=ax)
+    ax.set_xlabel("Time")
+    ax.set_ylabel(row)
+    ax.set_title(f"Votes by {row} over time ({col_freq})")
+    plt.tight_layout()
+    return ax
+
+
+def plot_interactive_time_series(
+    df: pd.DataFrame,
+    date_col: str = "date",
+    group_col: Optional[str] = None,
+    freq: str = "M",
+    title: Optional[str] = None,
+):
+    """
+    Interactive time series using Plotly (if available).
+    """
+    if not HAS_PLOTLY:
+        raise RuntimeError("Plotly is not installed. Install plotly to use interactive plotting.")
+
+    df = df.copy()
+    df[date_col] = pd.to_datetime(df[date_col])
+
+    if group_col:
+        grouped = df.groupby([pd.Grouper(key=date_col, freq=freq), group_col]).size().reset_index(name="count")
+        fig = px.line(grouped, x=date_col, y="count", color=group_col, title=title)
+    else:
+        series = df.groupby(pd.Grouper(key=date_col, freq=freq)).size().reset_index(name="count")
+        fig = px.line(series, x=date_col, y="count", title=title)
+    return fig
+
+
+if __name__ == "__main__":
+    # Example quick demo (run locally)
+    import os
+    example_path = os.path.join("data", "processed", "nrc_votes_processed.csv")
+    if os.path.exists(example_path):
+        df = load_data(example_path)
+        ax = plot_time_series(df, group_col="vote", freq="M", title="Monthly votes by vote type")
+        plt.show()
+    else:
+        print(f"Example data file not found at {example_path}. Update path and re-run demo.")
