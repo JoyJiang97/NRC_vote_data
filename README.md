@@ -5,7 +5,7 @@ A curated dataset and supporting code for analyzing NRC voting records, for SECY
 ## Contents
 - `NRC_vote_data/NRC_vote_data.csv/` — Cleaned and merged datasets ready for analysis.
 - `main_analysis_pipeline.ipynb/` — Jupyter notebooks demonstrating exploratory analysis and visualizations.
-- `README.md` — This file.
+- `README.md` — This file. Description of variables.
 
 ## Project goals
 - Provide a clean, documented dataset of NRC votes suitable for research and reproducible analysis.
